@@ -5,7 +5,6 @@
     let formErrors = {};
     
   
-
     export function postSignUp() {
       goto('/');
     }
