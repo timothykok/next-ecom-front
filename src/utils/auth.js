@@ -50,7 +50,8 @@ export async function isValidToken() {
 			localStorage.setItem(
 				'auth',
 				JSON.stringify({
-					token: res.token,
+					token: res.accessToken,
+					refreshToken: res.refreshToken,
 					userId: res.record.id
 				})
 			);
@@ -66,27 +67,31 @@ export async function isValidToken() {
 }
 
 export async function authenticateUser(email, password) {
-	const resp = await fetch(PUBLIC_BACKEND_BASE_URL + '/', {
+	const resp = await fetch(PUBLIC_BACKEND_BASE_URL + '/auth', {
 		method: 'POST',
 		mode: 'cors',
 		headers: {
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
-			identity: email,
+			email: email,
 			password: password
 		})
 	});
 
 	const res = await resp.json();
+	// console.log(res)
 
 	if (resp.status == 200) {
 		localStorage.setItem(
 			'auth',
 			JSON.stringify({
-				token: res.token,
-				userId: res.record.id
+				token: res.accessToken,
+				// refreshToken: res.refreshToken,
+				// userId: res.record.id
+				
 			})
+			
 		);
 		isLoggedIn.set(true);
 

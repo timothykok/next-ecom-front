@@ -2,32 +2,44 @@
 	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
 	import { authenticateUser } from '../../../utils/auth';
+
 	// import Alert from "../../../components/Alert.svelte";
 	// import { alerts } from '../../../utils/alerts/alert';
+	
 
-	let formErrors = {};
+	
+let formErrors = {};
 
-	async function logInUser(evt) {
-		evt.preventDefault();
+async function logInUser(evt){
+        evt.preventDefault() 
 
-		let email = evt.target['email'].value;
-		let password = evt.target['password'].value;
+        let email = evt.target['email'].value
+        let password = evt.target['password'].value 
 
-		const res = await authenticateUser(email, password);
+        const res = await authenticateUser(email, password)
 
-		if (res.success) {
-			goto('/');
-			// alerts.setAlert("Succesful login", "alert-success")
-		}
-	}
+
+        if (res.success){
+            goto('/'); 
+           
+        }
+        else{
+            console.log("Error")
+        }
+        
+
+    }
+
+    
+
+	
 </script>
 
 <div class="align-middle">
 	<h1 class="text-center text-xl mr-60">Welcome Back</h1>
 	<div class="text-center">
 		<a class="link-hover italic text-xs mr-10" href="/users/new"
-			>Don'have an account? Click here to sign up.</a
-		>
+			>Don'have an account? Click here to sign up.</a>
 	</div>
 	<div class="flex justify-center items-center mt-8">
 		<form on:submit={logInUser} class="w-1/3">

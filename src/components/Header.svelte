@@ -1,8 +1,7 @@
 <script>
 	import '../app.css';
-	import { authenticateUser, isLoggedIn, logOut } from '../utils/auth';
+	import { isLoggedIn, logOut } from '../utils/auth';
 	import Themes from '../components/Themes.svelte';
-	import { themeChange } from 'theme-change';
 	import { goto } from '$app/navigation';
 
 	function logDirect() {

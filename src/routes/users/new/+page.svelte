@@ -1,12 +1,10 @@
 <script>
 	import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
-	// import { authenticateUser }
+    import { authenticateUser } from '../../../utils/auth';
 	let formErrors = {};
 
-	export function postSignUp() {
-		goto('/');
-	}
+	
 
 	export async function createUser(evt) {
 		evt.preventDefault();
@@ -31,12 +29,18 @@
 			body: JSON.stringify(userData)
 		});
 
-		if (resp.status == 200) {
-			postSignUp();
-		} else {
-			const res = await resp.json();
-			formErrors = res.data;
-		}
+        if (resp.status == 200) {
+        const res = await authenticateUser(userData.email, userData.password);
+  
+        if (res.success) {
+            goto('/');
+        } else {
+          throw 'Sign up succeeded but authentication failed';
+        }
+      } else {
+        const res = await resp.json();
+        formErrors = res.data;
+      }
 	}
 </script>
 
