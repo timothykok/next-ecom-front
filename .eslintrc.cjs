@@ -7,6 +7,8 @@ module.exports = {
 		ecmaVersion: 2020,
 		extraFileExtensions: ['.svelte']
 	},
+	daisyui: {
+		themes: ["light","dark"]},
 	env: {
 		browser: true,
 		es2017: true,
