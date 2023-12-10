@@ -2,11 +2,18 @@
 	import { uploadMedia } from '../utils/s3-uploader.js'
   import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
-	// export let images = [];
+	export let data
+  export async function load({ fetch }) {
+      return await load({ fetch });
+    }
   import { getTokenFromLocalStorage } from '../utils/auth.js'
 	import Alert from '../components/Alert.svelte';
-  import {load} from '../routes/+page.js'
   let formErrors = {};
+
+
+
+
+  
 
 
 	async function uploadImage(evt) {
@@ -44,6 +51,21 @@
 		}
 	}
 
+  // Assuming data.images is an array of image objects
+  // You can adjust this based on the actual structure of your data
+  let images = data.images || [];
+
+  
+  function loadImage(image) {
+    return image.fileUrl; 
+  }
+
+  
+   function handlePurchase(image) {
+    // Implement the logic for handling the purchase button click
+    console.log(`Purchase button clicked for image: ${image.fileName}`);
+    // Add your purchase logic here, such as redirecting to a purchase page or showing a modal.
+  }
 
 
 </script>
@@ -100,7 +122,7 @@
           />
           {#if 'price' in formErrors}
             <label class="label" for="price">
-              <span class="label-text-alt text-red-500">{formErrors['Price'].message}</span>
+              <span class="label-text-alt text-red-500">{formErrors['price'].message}</span>
             </label>
           {/if}
         </div>
@@ -132,9 +154,36 @@
   
   
 </div>
-<!-- 
-<div class="image-container">
-  {#each images as image }
-    <img src={load(image)} alt={image.fileName} class="image" />
-  {/each}
-</div> -->
+
+
+
+  <div class="grid grid-cols-4 md:grid-cols-5 gap-10 p-11">
+
+    {#each images as image}
+      
+        <div>
+          <h3 class = "font-bold text-xl pb-4"> {image.title} </h3>
+          <div class="relative"> 
+            <img class="h-max max-w-full rounded-lg shadow-xl" src={loadImage(image)} alt={image.fileName || 'Image'} /> 
+           
+            <button on:click={handlePurchase} class="btn btn-md mt-4 absolute bottom-3 right-3" > Purchase </button>
+          
+          </div>
+         
+          <div class= "mt-2">
+            <p> {image.description}</p>
+            <p class = "italic">  ${image.price}</p>
+          </div>
+          
+
+         
+          
+        </div>
+
+       
+        
+        
+     
+    {/each}
+  </div>
+  
